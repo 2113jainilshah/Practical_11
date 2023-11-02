@@ -21,7 +21,7 @@ class DatabaseHelper(context: Context) :
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         if (db != null) {
-            db.execSQL("DROP TABLE IF EXISTS" + PersonDbTableData.TABLE_NAME)
+            db.execSQL("DROP TABLE IF EXISTS " + PersonDbTableData.TABLE_NAME)
         }
         onCreate(db)
     }
@@ -81,8 +81,8 @@ class DatabaseHelper(context: Context) :
             cursor.getString(cursor.getColumnIndexOrThrow(PersonDbTableData.COLUMN_PERSON_EMAIL_ID)),
             cursor.getString(cursor.getColumnIndexOrThrow(PersonDbTableData.COLUMN_PERSON_PHONE_NO)),
             cursor.getString(cursor.getColumnIndexOrThrow(PersonDbTableData.COLUMN_PERSON_ADDRESS)),
-            cursor.getString(cursor.getColumnIndexOrThrow(PersonDbTableData.COLUMN_PERSON_GPS_LAT)),
-            cursor.getString(cursor.getColumnIndexOrThrow(PersonDbTableData.COLUMN_PERSON_GPS_LONG))
+            cursor.getDouble(cursor.getColumnIndexOrThrow(PersonDbTableData.COLUMN_PERSON_GPS_LAT)),
+            cursor.getDouble(cursor.getColumnIndexOrThrow(PersonDbTableData.COLUMN_PERSON_GPS_LONG))
         )
     }
 
@@ -90,7 +90,7 @@ class DatabaseHelper(context: Context) :
         get() {
             val persons = ArrayList<PersonListCardModel>()
             val selectQuery =
-                " SELECT * FROM " + PersonDbTableData.TABLE_NAME + " ORDER BY " + PersonDbTableData.COLUMN_PERSON_NAME + "DESC"
+                " SELECT * FROM " + PersonDbTableData.TABLE_NAME + " ORDER BY " + PersonDbTableData.COLUMN_PERSON_NAME + " DESC"
             val db = this.writableDatabase
             val cursor = db.rawQuery(selectQuery, null)
             if (cursor.moveToFirst()) {
@@ -121,14 +121,13 @@ class DatabaseHelper(context: Context) :
         )
     }
 
-    fun deletePerson(person: PersonListCardModel): Int {
+    fun deletePerson(person: PersonListCardModel) {
         val db = this.writableDatabase
-        return db.delete(
+        db.delete(
             PersonDbTableData.TABLE_NAME,
             PersonDbTableData.COLUMN_ID + " =?",
             arrayOf(person.id)
         )
         db.close()
     }
-
 }

@@ -19,6 +19,7 @@ import kotlin.coroutines.coroutineContext
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val personList = ArrayList<PersonListCardModel>()
+    private val adapter = RecyclerPersonlistAdapter(this, personList)
     lateinit var db: DatabaseHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         db= DatabaseHelper(applicationContext)
 
-        val adapter = RecyclerPersonlistAdapter(this, personList)
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
         binding.recyclerview.adapter = adapter
 
@@ -37,12 +37,11 @@ class MainActivity : AppCompatActivity() {
             networkDb()
         }
     }
-    fun deletePerson(position: Int){
+    fun deletePerson(position: Int) {
         val person = personList[position]
         db.deletePerson(person)
         personList.removeAt(position)
-        RecyclerPersonlistAdapter.notifyItemRemoved(position)
-
+        adapter.notifyItemRemoved(position)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -67,10 +66,10 @@ class MainActivity : AppCompatActivity() {
     private fun getPersionDetailsFromSqliteDb() {
         val size = personList.size
         personList.clear()
-        RecyclerPersonlistAdapter.notifyItemRangeRemoved(0,size)
+        adapter.notifyItemRangeRemoved(0,size)
         try{
             personList.addAll(db.allPersons)
-            RecyclerPersonlistAdapter.notifyItemRangeRemoved(0,personList.size)
+            adapter.notifyItemRangeRemoved(0,personList.size)
         }catch (e: Exception){
             e.printStackTrace()
         }
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     private fun getPersonDetailsFromJson(data: String) {
         val size = personList.size
         personList.clear()
-        RecyclerPersonlistAdapter.notifyItemRangeRemoved(0,size)
+        adapter.notifyItemRangeRemoved(0,size)
         try{
             val jsonArray = JSONArray(data)
             for(i in 0 until jsonArray.length()){
@@ -95,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-            RecyclerPersonlistAdapter.notifyItemRangeRemoved(0,personList.size)
+            adapter.notifyItemRangeRemoved(0,personList.size)
         }catch (e: Exception) {
             e.printStackTrace()
         }

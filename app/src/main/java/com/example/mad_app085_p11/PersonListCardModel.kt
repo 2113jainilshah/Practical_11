@@ -9,10 +9,10 @@ class PersonListCardModel(
     var emailld: String,
     var phoneNo: String,
     var address: String,
-    var latitude: String,
-    var longitude:String): Serializable {
+    var latitude: Double,
+    var longitude:Double): Serializable {
 
-    constructor(jsonObject: JSONObject):this("","","","","","","") {
+    constructor(jsonObject: JSONObject):this("","","","","",0.0,0.0) {
         id = jsonObject.getString("id")
         emailld = jsonObject.getString("email")
         phoneNo = jsonObject.getString("phone")
@@ -20,7 +20,7 @@ class PersonListCardModel(
         name = profileJson.getString("name")
         address = profileJson.getString("address")
         val locationJson = profileJson.getJSONObject("location")
-        latitude = locationJson.getString("lat")
-        longitude = locationJson.getString("long")
+        latitude = locationJson.getDouble("lat")
+        longitude = locationJson.getDouble("long")
     }
 }

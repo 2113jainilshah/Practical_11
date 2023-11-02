@@ -13,13 +13,13 @@ class PersonDbTableData {
 
 
         val CREATE_TABLE = ("CREATE TABLE "+ TABLE_NAME + "("
-                + COLUMN_ID + "TEXT PRIMARY KEY,"
-                + COLUMN_PERSON_NAME + "TEXT,"
-                + COLUMN_PERSON_EMAIL_ID + "TEXT,"
-                + COLUMN_PERSON_PHONE_NO + "TEXT,"
-                + COLUMN_PERSON_ADDRESS + "TEXT,"
-                + COLUMN_PERSON_GPS_LAT + "TEXT,"
-                + COLUMN_PERSON_GPS_LONG + "TEXT,"
+                + COLUMN_ID + " TEXT PRIMARY KEY,"
+                + COLUMN_PERSON_NAME + " TEXT,"
+                + COLUMN_PERSON_EMAIL_ID + " TEXT,"
+                + COLUMN_PERSON_PHONE_NO + " TEXT,"
+                + COLUMN_PERSON_ADDRESS + " TEXT,"
+                + COLUMN_PERSON_GPS_LAT + " TEXT,"
+                + COLUMN_PERSON_GPS_LONG + " TEXT"
                 + ")")
     }
 }
